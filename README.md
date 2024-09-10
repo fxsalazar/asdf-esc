@@ -2,7 +2,7 @@
 
 # asdf-esc [![Build](https://github.com/fxsalazar/asdf-esc/actions/workflows/build.yml/badge.svg)](https://github.com/fxsalazar/asdf-esc/actions/workflows/build.yml) [![Lint](https://github.com/fxsalazar/asdf-esc/actions/workflows/lint.yml/badge.svg)](https://github.com/fxsalazar/asdf-esc/actions/workflows/lint.yml)
 
-[esc](https://github.com/fxsalazar/asdf-esc) plugin for the [asdf version manager](https://asdf-vm.com).
+[esc](https://github.com/pulumi/esc) plugin for the [asdf version manager](https://asdf-vm.com) or [mise version manager](https://mise.jdx.dev/).
 
 </div>
 
@@ -15,10 +15,7 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
 - `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
 
 # Install
 
@@ -46,7 +43,7 @@ asdf global esc latest
 esc --version
 ```
 
-Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
+Check [asdf](https://github.com/asdf-vm/asdf) or [mise](https://github.com/jdx/mise) readme for more instructions on how to
 install & manage versions.
 
 # Contributing

@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for esc.
-GH_REPO="https://github.com/fxsalazar/asdf-esc"
+GH_REPO="https://github.com/pulumi/esc"
 TOOL_NAME="esc"
-TOOL_TEST="esc --version"
+TOOL_TEST="esc version"
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -31,18 +30,16 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if esc has other means of determining installable versions.
 	list_github_tags
 }
 
 download_release() {
 	local version filename url
 	version="$1"
-	filename="$2"
+	file_basename="$2"
+	filename="$3"
 
-	# TODO: Adapt the release URL convention for esc
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/${file_basename}"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -61,7 +58,6 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		# TODO: Assert esc executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
@@ -71,4 +67,44 @@ install_version() {
 		rm -rf "$install_path"
 		fail "An error occurred while installing $TOOL_NAME $version."
 	)
+}
+
+get_platform() {
+	local uname_platform
+	uname_platform="$(uname)"
+
+	case "${uname_platform}" in
+	"Darwin")
+		echo "darwin"
+		;;
+
+	"Linux")
+		echo "linux"
+		;;
+
+	*)
+		echo "Platform ${uname_platform} is not supported."
+		exit 1
+		;;
+	esac
+}
+
+get_architecture() {
+	local uname_arch
+	uname_arch="$(uname -m)"
+
+	case "${uname_arch}" in
+	"arm64" | "aarch64") # Mac M1 and Linux ARM
+		echo "arm64"
+		;;
+
+	"x86_64")
+		echo "x64"
+		;;
+
+	*)
+		echo "Architecture ${uname_arch} is not supported."
+		exit 1
+		;;
+	esac
 }
