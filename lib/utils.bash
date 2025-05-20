@@ -99,8 +99,7 @@ get_architecture() {
 		;;
 
 	"x86_64")
-		# echo "x64"
-		echo "amd64"
+		echo "x64"
 		;;
 
 	*)
